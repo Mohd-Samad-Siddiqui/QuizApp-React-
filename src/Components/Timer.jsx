@@ -1,38 +1,45 @@
 import React from 'react'
 import { useEffect, useState } from "react"
 
-const Timer = () => {
+const Timer = ({setShowResult}) => {
 
-    const [leftTime, setLeftTime] = useState(20)
+    const [leftTime, setLeftTime] = useState(10)
+    const [displayTime, setDisplayTime] = useState('')
 
     useEffect(() => {
 
-        const interValid = setInterval(() => {
+        let intervalId = setInterval(() => {
             setLeftTime(prev => {
                 if (prev <= 0) {
+                    clearInterval(intervalId)
                     return 0
                 }
-                return prev-1
+                return prev - 1
             })
-
-            return(()=>{
-                clearInterval(interValid)
-            })
-
         }, 1000)
+
+        return (() => {
+            clearInterval(intervalId)
+        })
 
     }, [])
 
-    // useEffect(()=>{
+    useEffect(()=>{
+        if(leftTime===0){
+            setShowResult(true)
+        }
 
-    //     console.log(object)
+        let formattedTime = `${String(Math.floor(leftTime/60)).padStart(2,'0')}:${String((leftTime%60)).padStart(2,'0')}`
+        // console.log(formattedTime)
 
-    // },[leftTime])
+        setDisplayTime(formattedTime)
+
+    },[leftTime])
 
 
     return (
         <div>
-            Time left : {leftTime}
+            Time left : {displayTime}
         </div>
     )
 }
