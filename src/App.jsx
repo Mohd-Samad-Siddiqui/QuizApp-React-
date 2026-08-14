@@ -6,13 +6,21 @@ import Result from "./Components/Result"
 function App() {
 
   const [showResult, setShowResult] = useState(false)
+  const [score, setScore] = useState({
+    correctAns: 0,
+    incorrectAns: 0
+  })
 
   return (
     <>
-      <Timer setShowResult={setShowResult}/>
-
       {
-        showResult ? (<Result />) : <Questions setShowResult={setShowResult}/>
+        showResult ?
+          (<Result score={score} />) :
+          <div>
+            <Timer setShowResult={setShowResult} />
+            <Questions setShowResult={setShowResult} setScore={setScore} />
+          </div>
+
       }
 
     </>

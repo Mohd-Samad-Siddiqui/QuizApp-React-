@@ -2,18 +2,28 @@ import { useState } from 'react'
 import QuestionBank from '../data/Questions.json'
 
 
-const Questions = ({setShowResult}) => {
+const Questions = ({setShowResult, setScore}) => {
 
     const [currentIndex, setCurrentIndex] = useState(0)
 
-    const [score, setScore] = useState(0)
+    
 
     function handleOptionClicked(selectedOption){
         console.log(selectedOption)
         
         if(selectedOption === QuestionBank[currentIndex].answer){
-            setScore(prev=>prev+1)
+            // setScore(prev=>prev+1)
+            setScore(prev => ({
+                ...prev,
+                correctAns: prev.correctAns + 1
+            }))
+        }else{
+             setScore(prev => ({
+                ...prev,
+                incorrectAns: prev.incorrectAns + 1
+            }))
         }
+
 
         if(currentIndex < QuestionBank.length-1){
             setCurrentIndex(prev=>prev+1)
